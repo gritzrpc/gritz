@@ -1,8 +1,8 @@
 # Gritz
 
-Gritz is a Ruby gRPC application framework with controllers, middleware and network-free controller tests. The initial release supports a single-process C-core server and all four RPC forms: unary, server streaming, client streaming and bidirectional streaming.
+Gritz is a Ruby gRPC application framework with controllers, middleware and network-free controller tests. It supports a single-process C-core server and all four RPC forms: unary, server streaming, client streaming and bidirectional streaming.
 
-Requires CRuby 3.3 or later and grpc 1.83 or later. Linux and macOS are tested. Multi-process supervision, Rails integration and the Async adapter are scheduled in the [roadmap](docs/ROADMAP.md).
+Requires CRuby 3.3 or later and grpc 1.83 or later. Linux and macOS are tested.
 
 ## Quickstart from source
 
@@ -14,7 +14,7 @@ bundle exec ruby exe/gritz routes -C examples/hello/config/gritz.rb
 bundle exec ruby exe/gritz start -C examples/hello/config/gritz.rb
 ```
 
-In another terminal, run `bundle exec ruby examples/hello/client.rb`. It calls all four RPC forms. To use grpcurl, supply the bundled proto; reflection is planned for a later release:
+In another terminal, run `bundle exec ruby examples/hello/client.rb`. It calls all four RPC forms. To use grpcurl, supply the bundled proto:
 
 ```bash
 grpcurl -plaintext -import-path examples/hello/proto -proto hello.proto \
@@ -49,8 +49,9 @@ workers 0
 threads 16
 bind "127.0.0.1:50051"
 register_controller GreeterController
-strict_routes true # Requires every RPC in the bound service to have an action.
 ```
+
+Set `strict_routes true` once every RPC in the bound service has an action; otherwise missing actions return `UNIMPLEMENTED`.
 
 `before_action`, `around_action`, `after_action` and `rescue_from` support inheritance. Each RPC gets its own controller instance. `Gritz::Context.current` carries metadata, deadline, peer, request ID and a per-request store; child fibers and threads inherit it. Requests exceeding their deadline are rejected cooperatively at request reads and response writes. `context.check_deadline!` can also be called during application work.
 
@@ -78,17 +79,17 @@ Minitest tests can include `Gritz::Testing::Minitest` after requiring `gritz/tes
 
 ## Configuration and limitations
 
-Configuration precedence is CLI options, `GRITZ_*` environment variables, configuration file, then defaults. See [configuration](docs/guides/configuration.md) for settings and [implementation progress](docs/PROGRESS.md) for the release boundaries.
+Configuration precedence is CLI options, `GRITZ_*` environment variables, configuration file, then defaults. See the [configuration guide](docs/guides/configuration.md) for settings and lifecycle hooks.
 
 Use `TERM` or `INT` to finish in-flight calls within `shutdown_timeout`; `QUIT` closes immediately. Application code should check deadlines and cancellation during long work. The grpc 1.83 server view can report cancellation late; deadlines remain the practical limit for long handlers. The native thread pool rejects excess requests immediately with `RESOURCE_EXHAUSTED`; grpc 1.83 ignores its deprecated `max_waiting_requests` setting.
 
-v0.1 binds insecure gRPC sockets. Use a trusted network or a TLS-terminating proxy. TLS, health, reflection, metrics collection and supervisor signals are planned for subsequent phases. Unsupported transport, worker and TLS features fail at CLI startup.
+The server binds insecure gRPC sockets. Use a trusted network or a TLS-terminating proxy. Native TLS, health checks, reflection, metrics export and multi-process supervision are unavailable. Unsupported transport, worker and TLS features fail at startup.
 
 The packages are `gritz-core` (no grpc dependency), `gritz-grpc` (C-core adapter) and `gritz` (the default combination and executable).
 
 ## Development
 
-Run `bundle exec rake`, `COVERAGE=1 bundle exec rspec`, `bundle exec rubocop` and `bundle exec rake build`. The [Linux devcontainer](.devcontainer/devcontainer.json) includes grpcurl and ghz. The [release guide](docs/guides/releasing.md) describes trusted publishing; initial publication requires registering all three pending publishers on RubyGems first.
+Run `bundle exec rake`, `COVERAGE=1 bundle exec rspec`, `bundle exec rubocop` and `bundle exec rake build`. The [Linux devcontainer](.devcontainer/devcontainer.json) includes grpcurl and ghz. See the [release guide](docs/guides/releasing.md) for publishing packages.
 
 ## Contributing
 
