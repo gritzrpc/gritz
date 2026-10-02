@@ -25,6 +25,35 @@ RSpec.describe "CLI" do
     expect(output).to include("SayHello", "ListGreetings", "RecordNames", "Chat", "HelloController")
   end
 
+  it "checks preloaded master constructors and prints the offending config location" do
+    source = <<~RUBY
+      require_relative '#{File.expand_path('../examples/hello/hello_controller', __dir__)}'
+      register_controller HelloController
+      preload_app! do
+        channel = GRPC::Core::Channel.new("localhost:1", nil, :this_channel_is_insecure)
+        channel.close
+      end
+    RUBY
+    status, output, error = run_cli(source, "check")
+    expect(status).to eq(1)
+    expect(output).to eq("")
+    expect(error).to include("GRPC::Core::Channel.new", ".rb:4", "on_worker_boot")
+    safe = "require_relative '#{File.expand_path('../examples/hello/hello_controller', __dir__)}'\nregister_controller HelloController"
+    expect(run_cli(safe, "check")).to match([0, /checks passed/, ""])
+    expect(Gritz::ForkGuard.current).to be_nil
+  end
+
+  it "rejects master initialization before starting supervised workers" do
+    source = <<~RUBY
+      require_relative '#{File.expand_path('../examples/hello/hello_controller', __dir__)}'
+      register_controller HelloController
+      workers 2
+      channel = GRPC::Core::Channel.new("localhost:1", nil, :this_channel_is_insecure)
+      channel.close
+    RUBY
+    expect(run_cli(source, "start")).to match([1, "", /GRPC::Core::Channel.new/])
+  end
+
   it "flushes startup logs to pipes and exits gracefully on TERM" do
     Tempfile.create(["gritz", ".rb"]) do |file|
       file.write("require_relative '#{File.expand_path('../examples/hello/hello_controller',
