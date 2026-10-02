@@ -1,6 +1,10 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-require "gritz"
+require "gritz/core"
+require "rbconfig"
+require "socket"
 
-exit Gritz::CLI.new.run(ARGV)
+owner_fd = ENV.delete("GRITZ_INTERNAL_OWNER_FD")
+exit Gritz::CLI.new(launch: owner_fd.nil?, owner_io: owner_fd && UNIXSocket.for_fd(Integer(owner_fd)),
+                    launch_command: [RbConfig.ruby, File.expand_path($PROGRAM_NAME), *ARGV]).run(ARGV)

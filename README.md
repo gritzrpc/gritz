@@ -12,7 +12,7 @@ Requires CRuby 3.3 or later and grpc 1.83 or later. Linux and macOS are tested.
 | `gritz-core` | [gritzrpc/gritz-core](https://github.com/gritzrpc/gritz-core) | Transport-independent application framework |
 | `gritz-native` | [gritzrpc/gritz-native](https://github.com/gritzrpc/gritz-native) | Official grpc gem adapter and thread pool |
 
-Applications can add `gem "gritz", "~> 0.2.0"` to their Gemfile. It installs both the core and native adapter. The Fiber adapter `gritz-async` and integrations `gritz-rails` / `gritz-otel` are planned.
+Applications can add `gem "gritz", "~> 0.3.0"` to their Gemfile. It installs both the core and native adapter. The Fiber adapter `gritz-async` and integrations `gritz-rails` / `gritz-otel` are planned.
 
 ## Quickstart from source
 
@@ -93,7 +93,9 @@ Configuration precedence is CLI options, `GRITZ_*` environment variables, config
 
 Use `TERM` or `INT` to finish in-flight calls within `shutdown_timeout`; `QUIT` closes immediately. Application code should check deadlines and cancellation during long work. The grpc 1.83 server view can report cancellation late; deadlines remain the practical limit for long handlers. The native thread pool rejects excess requests immediately with `RESOURCE_EXHAUSTED`; grpc 1.83 ignores its deprecated `max_waiting_requests` setting.
 
-The server binds insecure gRPC sockets. Use a trusted network or a TLS-terminating proxy. Native TLS, health checks, reflection and metrics export are unavailable. Unsupported transport and TLS features fail at startup.
+Configure `tls cert:, key:` for TLS and add `client_ca:` for required client certificates. Native gRPC Health Check/Watch follows named `health_check` callbacks and worker draining. Admin HTTP provides `/livez`, `/readyz`, `/status` and Prometheus `/metrics` at `127.0.0.1:9090` by default. Reflection is planned.
+
+For Linux operations, use `USR1` to replace workers one at a time and `USR2` to load fresh Ruby code/configuration in a new master. The CLI launcher retains probes and metric totals while old masters drain; a failed replacement leaves the active master serving. Configure `worker_recycle` to replace workers by requests, PSS/RSS or lifetime. See the [Kubernetes guide](https://github.com/gritzrpc/gritz-native/blob/main/docs/guides/kubernetes.md).
 
 The default transport is `:native` (`Gritz::Transport::Native`). `gritz-core` can be loaded separately with `require "gritz/core"` without loading grpc.
 

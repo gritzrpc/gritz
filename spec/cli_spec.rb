@@ -57,7 +57,7 @@ RSpec.describe "CLI" do
   it "flushes startup logs to pipes and exits gracefully on TERM" do
     Tempfile.create(["gritz", ".rb"]) do |file|
       file.write("require_relative '#{File.expand_path('../examples/hello/hello_controller',
-                                                       __dir__)}'\nregister_controller HelloController\nbind '127.0.0.1:0'\n")
+                                                       __dir__)}'\nregister_controller HelloController\nbind '127.0.0.1:0'\ndrain_delay 0\n")
       file.flush
       Open3.popen3("ruby", "exe/gritz", "start", "-C", file.path) do |input, output, error, process|
         input.close
