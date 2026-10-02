@@ -6,7 +6,8 @@ require "tmpdir"
 
 RSpec.describe "Release preparation" do
   it "packages one gem from its own repository" do
-    expect(Dir["**/*.gemspec"]).to eq(["gritz.gemspec"])
+    gemspecs = Open3.capture2("git", "ls-files", "--", "*.gemspec").first.lines.map(&:strip)
+    expect(gemspecs).to eq(["gritz.gemspec"])
     spec = Gem::Specification.load("gritz.gemspec")
     expect(spec.version.to_s).to eq(Gritz::VERSION)
     expect(spec.files).to include("exe/gritz", "lib/gritz.rb", "CHANGELOG.md")
