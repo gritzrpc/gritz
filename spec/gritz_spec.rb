@@ -8,4 +8,9 @@ RSpec.describe Gritz do
   it "loads the controller framework" do
     expect(Gritz.const_defined?(:Controller)).to be true
   end
+
+  it "loads the native adapter" do
+    expect(Gritz.const_defined?(:Native)).to be true
+    expect(Gritz::Transport.const_defined?(:Native)).to be true
+  end
 end

@@ -18,7 +18,7 @@ blocks, controller classes and middleware in Ruby.
 | `workers` | `0` | Server requires 0 |
 | `threads` | `16` | Positive integer |
 | `max_waiting_requests` | `64` | Positive integer; ignored by grpc 1.83 |
-| `transport` | `:grpc_core` | Server requires grpc_core |
+| `transport` | `:native` | Server requires native |
 | `listener_strategy` | `:reuseport` | Server requires reuseport |
 | `bind` | `"0.0.0.0:50051"` | host:port; port 0 allowed for single-process tests |
 | `strict_routes` | `false` | Boolean; fail boot on missing application actions |

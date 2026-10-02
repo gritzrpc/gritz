@@ -4,10 +4,20 @@ Gritz is a Ruby gRPC application framework with controllers, middleware and netw
 
 Requires CRuby 3.3 or later and grpc 1.83 or later. Linux and macOS are tested.
 
+## Packages
+
+| Gem | Repository | Role |
+| --- | --- | --- |
+| `gritz` | [gritzrpc/gritz](https://github.com/gritzrpc/gritz) | Default combination and executable |
+| `gritz-core` | [gritzrpc/gritz-core](https://github.com/gritzrpc/gritz-core) | Transport-independent application framework |
+| `gritz-native` | [gritzrpc/gritz-native](https://github.com/gritzrpc/gritz-native) | Official grpc gem adapter and thread pool |
+
+After v0.1.0 is published, applications can add `gem "gritz", "~> 0.1.0"` to their Gemfile. It installs both the core and native adapter. The Fiber adapter `gritz-async` and integrations `gritz-rails` / `gritz-otel` are planned.
+
 ## Quickstart from source
 
 ```bash
-git clone https://github.com/ydah/gritz.git
+git clone https://github.com/gritzrpc/gritz.git
 cd gritz
 bundle install
 bundle exec ruby exe/gritz routes -C examples/hello/config/gritz.rb
@@ -85,15 +95,17 @@ Use `TERM` or `INT` to finish in-flight calls within `shutdown_timeout`; `QUIT` 
 
 The server binds insecure gRPC sockets. Use a trusted network or a TLS-terminating proxy. Native TLS, health checks, reflection, metrics export and multi-process supervision are unavailable. Unsupported transport, worker and TLS features fail at startup.
 
-The packages are `gritz-core` (no grpc dependency), `gritz-grpc` (C-core adapter) and `gritz` (the default combination and executable).
+The default transport is `:native` (`Gritz::Transport::Native`). `gritz-core` can be loaded separately with `require "gritz/core"` without loading grpc.
 
 ## Development
+
+Each repository has its own tests, CI and package build. Development dependencies come from their Git repositories; sibling checkouts are optional. See [CONTRIBUTING.md](CONTRIBUTING.md) to work on local components.
 
 Run `bundle exec rake`, `COVERAGE=1 bundle exec rspec`, `bundle exec rubocop` and `bundle exec rake build`. The [Linux devcontainer](.devcontainer/devcontainer.json) includes grpcurl and ghz. See the [release guide](docs/guides/releasing.md) for publishing packages.
 
 ## Contributing
 
-Bug reports and pull requests are welcome on [GitHub](https://github.com/ydah/gritz). See [CONTRIBUTING.md](CONTRIBUTING.md) and [SECURITY.md](SECURITY.md).
+Bug reports and pull requests are welcome on [GitHub](https://github.com/gritzrpc/gritz). See [CONTRIBUTING.md](CONTRIBUTING.md) and [SECURITY.md](SECURITY.md).
 
 ## License
 

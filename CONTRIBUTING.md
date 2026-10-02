@@ -6,4 +6,26 @@ Write a failing behavior test before changing nontrivial logic. Keep commits foc
 
 Update CHANGELOG only for user-visible behavior. Documentation, internal tooling and tests alone do not justify a release. First release notes are exactly `Initial release.`. See [release instructions](docs/guides/releasing.md).
 
-`gritz-core` contains routing, controllers, middleware and configuration without requiring grpc. `gritz-grpc` implements the C-core adapter. The root `gritz` package combines them and provides the executable. Keep application behavior in the core and wire-protocol details in the adapter.
+## Repositories
+
+[gritz-core](https://github.com/gritzrpc/gritz-core) owns routing, controllers, middleware, configuration and network-free testing without a grpc dependency. [gritz-native](https://github.com/gritzrpc/gritz-native) owns the official grpc gem adapter and real-socket tests. [gritz](https://github.com/gritzrpc/gritz) combines them, provides the executable and contains the hello example.
+
+Each repository has its own Gemfile, gemspec, tests, CI and release workflow. Keep application behavior in the core and wire-protocol details in the adapter.
+
+## Local component changes
+
+Development uses the components' `main` branches. To work on local checkouts, use Bundler's [local Git overrides](https://guides.rubygems.org/git/#local-git-repos):
+
+```sh
+bundle config set --local local.gritz-core ../gritz-core
+bundle config set --local local.gritz-native ../gritz-native
+bundle install
+```
+
+Each local component must be on `main`. These overrides live in ignored `.bundle/config`; sibling checkouts are optional. Push component commits before pushing a dependent repository. To return to remote dependencies:
+
+```sh
+bundle config unset --local local.gritz-core
+bundle config unset --local local.gritz-native
+bundle update gritz-core gritz-native
+```

@@ -5,18 +5,15 @@ require "open3"
 require "tmpdir"
 
 RSpec.describe "Release preparation" do
-  it "builds all three packages with matched versions and isolated file lists" do
-    specs = ["gritz.gemspec", "gems/gritz-core/gritz-core.gemspec", "gems/gritz-grpc/gritz-grpc.gemspec"].map do |path|
-      Dir.chdir(File.dirname(path)) { Gem::Specification.load(File.basename(path)) }
-    end
-    expect(specs.map { |spec| spec.version.to_s }.uniq).to eq([Gritz::VERSION])
-    expect(specs[0].files).to include("exe/gritz", "lib/gritz.rb")
-    expect(specs[1].files).to include("lib/gritz/controller.rb")
-    expect(specs[2].files).to include("lib/gritz/transport/grpc_core.rb")
-    specs.each do |spec|
-      expect(spec.metadata["rubygems_mfa_required"]).to eq("true")
-      expect(spec.files.none? { |file| file.start_with?("spec/", ".idea/", "spikes/") }).to be true
-    end
+  it "packages one gem from its own repository" do
+    expect(Dir["**/*.gemspec"]).to eq(["gritz.gemspec"])
+    spec = Gem::Specification.load("gritz.gemspec")
+    expect(spec.version.to_s).to eq(Gritz::VERSION)
+    expect(spec.files).to include("exe/gritz", "lib/gritz.rb", "CHANGELOG.md")
+    expect(spec.homepage).to eq("https://github.com/gritzrpc/gritz")
+    expect(spec.metadata["rubygems_mfa_required"]).to eq("true")
+    expect(spec.files.none? { |file| file.start_with?("spec/", ".idea/", "spikes/") }).to be true
+    expect(spec.dependencies.map(&:name)).to eq(%w[gritz-core gritz-native])
   end
 
   it "extracts only the requested changelog version and rejects empty or absent releases" do

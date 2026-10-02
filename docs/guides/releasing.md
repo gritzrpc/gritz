@@ -1,14 +1,21 @@
 # Releasing
 
-Pushing a `vX.Y.Z` tag triggers `.github/workflows/release.yml`. It tests and builds the packages, publishes `gritz-core`, `gritz-grpc` and `gritz` in that order, and creates a GitHub Release from the matching CHANGELOG entry.
+Each repository builds and publishes its own gem. For v0.1.0, publish in this order:
+
+1. [gritz-core](https://github.com/gritzrpc/gritz-core)
+2. [gritz-native](https://github.com/gritzrpc/gritz-native)
+3. [gritz](https://github.com/gritzrpc/gritz)
+
+Wait for each Release workflow to succeed and its gem to become available on RubyGems before tagging the next repository. The release workflow sets `GRITZ_RELEASE=1`, so tests use published dependencies. Development and CI use the dependencies' Git repositories, allowing work before the initial publication.
 
 ## Trusted Publishing
 
-Before publishing a new gem, create a [pending trusted publisher](https://rubygems.org/profile/oidc/pending_trusted_publishers) on RubyGems for each of `gritz-core`, `gritz-grpc` and `gritz`, using these settings:
+Create a [pending trusted publisher](https://rubygems.org/profile/oidc/pending_trusted_publishers) for this gem on RubyGems:
 
 | Field | Value |
 | --- | --- |
-| Repository owner | `ydah` |
+| Gem name | `gritz` |
+| Repository owner | `gritzrpc` |
 | Repository name | `gritz` |
 | Workflow filename | `release.yml` |
 | Environment | `release` |
@@ -17,16 +24,17 @@ Leave reusable-workflow repository fields empty. No API key is needed. See the [
 
 ## Publish a version
 
-1. Update all three version files together: `lib/gritz/version.rb`, `gems/gritz-core/lib/gritz/core/version.rb` and `gems/gritz-grpc/lib/gritz/grpc/version.rb`.
-2. Record only user-visible changes in CHANGELOG. Use `Initial release.` for the first release. Do not tag a release containing only documentation, tests, version bumps or tooling changes.
-3. Run tests, lint, dependency audit and `bundle exec rake build`, commit and push main, and wait for CI.
-4. With Trusted Publishing configured and main's CI passing, push the matching tag:
+1. Update `lib/gritz/version.rb`. Component dependencies currently require the same version; update their gemspec requirements when changing the version policy.
+2. Record user-visible changes in CHANGELOG. First release notes are exactly `Initial release.`. Documentation, tests, version bumps and tooling alone do not justify a release.
+3. Run `bundle exec rake`, `bundle exec rubocop`, `bundle exec bundler-audit check --update` and `bundle exec rake build`. Commit, push main and wait for CI.
+4. Configure Trusted Publishing for this repository and, if applicable, publish its dependencies first.
+5. Push the matching tag from this repository:
 
 ```sh
 git tag v0.1.0
 git push origin v0.1.0
 ```
 
-Replace `0.1.0` with the release version. The workflow validates package versions and checks for runtime or dependency changes before publishing.
+Replace `0.1.0` with the release version. `.github/workflows/release.yml` validates the tag, tests and builds this gem, publishes it through Trusted Publishing, then creates a GitHub Release from the matching CHANGELOG entry.
 
-`rake release` is restricted to the tag-triggered workflow and receives short-lived credentials from `rubygems/release-gem`. It does not create commits or tags. If a publish step fails after a component is published, inspect RubyGems before rerunning; published versions cannot be overwritten.
+`rake release` is restricted to the tag-triggered workflow. It receives short-lived credentials from `rubygems/release-gem` and creates no commits or tags. If publication fails, inspect RubyGems before rerunning; published versions cannot be overwritten.

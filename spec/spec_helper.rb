@@ -3,8 +3,9 @@
 if ENV["COVERAGE"]
   require "simplecov"
   SimpleCov.start do
-    add_filter "/spec/"
-    add_filter "/examples/"
+    track_files "lib/**/*.rb"
+    add_filter "/version.rb"
+    add_filter { |file| !file.filename.start_with?("#{File.expand_path('../lib', __dir__)}/") }
     enable_coverage :branch
     minimum_coverage line: 90
   end
@@ -13,13 +14,9 @@ end
 require "gritz"
 
 RSpec.configure do |config|
-  # Enable flags like --only-failures and --next-failure
   config.example_status_persistence_file_path = ".rspec_status"
-
-  # Disable RSpec exposing methods globally on `Module` and `main`
   config.disable_monkey_patching!
-
-  config.expect_with :rspec do |c|
-    c.syntax = :expect
+  config.expect_with :rspec do |expectations|
+    expectations.syntax = :expect
   end
 end

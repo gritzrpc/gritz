@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
 
   spec.summary = "A controller-based Ruby gRPC application framework"
   spec.description = "Gritz combines transport-independent controllers, middleware and testing with a gRPC C-core server."
-  spec.homepage = "https://github.com/ydah/gritz"
+  spec.homepage = "https://github.com/gritzrpc/gritz"
   spec.license = "MIT"
   spec.required_ruby_version = ">= 3.3"
   spec.metadata["allowed_push_host"] = "https://rubygems.org"
@@ -25,5 +25,5 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "gritz-core", Gritz::VERSION
-  spec.add_dependency "gritz-grpc", Gritz::VERSION
+  spec.add_dependency "gritz-native", Gritz::VERSION
 end

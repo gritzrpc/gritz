@@ -2,4 +2,4 @@
 
 require_relative "gritz/version"
 require "gritz/core"
-require "gritz/grpc"
+require "gritz/native"
