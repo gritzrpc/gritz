@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.0
+
+- Add fork-safe clients for all four RPC forms, with deadline and request-header propagation and client middleware.
+- Preserve typed downstream errors and rich details while returning safe `INTERNAL` responses for unhandled downstream failures.
+- Support native retry and load-balancing service configuration and optional OpenTelemetry integration.
+
 ## 0.3.0
 
 - Add phased worker replacement, hot application reload, worker recycling and stable admin probes with Prometheus metrics.

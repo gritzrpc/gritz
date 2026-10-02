@@ -11,8 +11,9 @@ Requires CRuby 3.3 or later and grpc 1.83 or later. Linux and macOS are tested.
 | `gritz` | [gritzrpc/gritz](https://github.com/gritzrpc/gritz) | Default combination and executable |
 | `gritz-core` | [gritzrpc/gritz-core](https://github.com/gritzrpc/gritz-core) | Transport-independent application framework |
 | `gritz-native` | [gritzrpc/gritz-native](https://github.com/gritzrpc/gritz-native) | Official grpc gem adapter and thread pool |
+| `gritz-otel` | [gritzrpc/gritz-otel](https://github.com/gritzrpc/gritz-otel) | Optional server/client tracing and worker OTLP metrics |
 
-Applications can add `gem "gritz", "~> 0.3.0"` to their Gemfile. It installs both the core and native adapter. The Fiber adapter `gritz-async` and integrations `gritz-rails` / `gritz-otel` are planned.
+Applications can add `gem "gritz", "~> 0.4.0"` to their Gemfile. It installs both the core and native adapter. Add `gritz-otel` for OpenTelemetry. The Fiber adapter `gritz-async` and Rails integration `gritz-rails` are planned.
 
 ## Quickstart from source
 
@@ -66,6 +67,10 @@ Set `strict_routes true` once every RPC in the bound service has an action; othe
 `before_action`, `around_action`, `after_action` and `rescue_from` support inheritance. Each RPC gets its own controller instance. `Gritz::Context.current` carries metadata, deadline, peer, request ID and a per-request store; child fibers and threads inherit it. Requests exceeding their deadline are rejected cooperatively at request reads and response writes. `context.check_deadline!` can also be called during application work.
 
 The default middleware adds request IDs, scopes context, writes JSON completion logs and converts exceptions to gRPC errors. Internal errors expose an `error-id` trailer rather than application exception messages. `fail!` accepts status symbols, trailing metadata and protobuf rich error details. Middleware wraps the full stream, including incremental response writes.
+
+## Clients
+
+For downstream calls, define a lazy client with `Gritz::Client.define(Helloworld::Greeter::Stub, target: "localhost:50051", deadline: 2.0)`. It shares a channel within each worker, inherits the parent deadline and selected request headers, and wraps complete streams in client middleware. See the [client guide](https://github.com/gritzrpc/gritz-core/blob/main/docs/guides/clients.md).
 
 ## Testing
 
