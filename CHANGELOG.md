@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.0
+
+- Include Gruf migration support and optional gRPC Reflection through gritz-core and gritz-native 0.5.0.
+
 ## 0.4.0
 
 - Add fork-safe clients for all four RPC forms, with deadline and request-header propagation and client middleware.

@@ -24,6 +24,6 @@ Gem::Specification.new do |spec|
   spec.executables = ["gritz"]
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "gritz-core", "= 0.4.0"
-  spec.add_dependency "gritz-native", "= 0.4.0"
+  spec.add_dependency "gritz-core", "= 0.5.0"
+  spec.add_dependency "gritz-native", "= 0.5.0"
 end

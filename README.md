@@ -11,9 +11,10 @@ Requires CRuby 3.3 or later and grpc 1.83 or later. Linux and macOS are tested.
 | `gritz` | [gritzrpc/gritz](https://github.com/gritzrpc/gritz) | Default combination and executable |
 | `gritz-core` | [gritzrpc/gritz-core](https://github.com/gritzrpc/gritz-core) | Transport-independent application framework |
 | `gritz-native` | [gritzrpc/gritz-native](https://github.com/gritzrpc/gritz-native) | Official grpc gem adapter and thread pool |
+| `gritz-rails` | [gritzrpc/gritz-rails](https://github.com/gritzrpc/gritz-rails) | Optional Rails execution, generators and development reloading |
 | `gritz-otel` | [gritzrpc/gritz-otel](https://github.com/gritzrpc/gritz-otel) | Optional server/client tracing and worker OTLP metrics |
 
-Applications can add `gem "gritz", "~> 0.4.0"` to their Gemfile. It installs both the core and native adapter. Add `gritz-otel` for OpenTelemetry. The Fiber adapter `gritz-async` and Rails integration `gritz-rails` are planned.
+Applications can add `gem "gritz", "~> 0.5.0"` to their Gemfile. It installs both the core and native adapter. Add `gritz-otel` for OpenTelemetry. Add `gritz-rails` for Rails execution, generators and development reloading. The Fiber adapter `gritz-async` is planned.
 
 ## Quickstart from source
 
@@ -72,6 +73,10 @@ The default middleware adds request IDs, scopes context, writes JSON completion 
 
 For downstream calls, define a lazy client with `Gritz::Client.define(Helloworld::Greeter::Stub, target: "localhost:50051", deadline: 2.0)`. It shares a channel within each worker, inherits the parent deadline and selected request headers, and wraps complete streams in client middleware. See the [client guide](https://github.com/gritzrpc/gritz-core/blob/main/docs/guides/clients.md).
 
+## Rails and Gruf migration
+
+Add [gritz-rails](https://github.com/gritzrpc/gritz-rails), run `bin/rails generate gritz:install`, and use `bin/gritz` to start RPCs with Rails execution and development reloading. See its [Rails sample](https://github.com/gritzrpc/gritz-rails/tree/main/examples/rails_app). Existing Gruf controllers can use the optional compatibility module in core; follow the [migration guide](https://github.com/gritzrpc/gritz-core/blob/main/docs/guides/migrating-from-gruf.md).
+
 ## Testing
 
 ```ruby
@@ -98,7 +103,7 @@ Configuration precedence is CLI options, `GRITZ_*` environment variables, config
 
 Use `TERM` or `INT` to finish in-flight calls within `shutdown_timeout`; `QUIT` closes immediately. Application code should check deadlines and cancellation during long work. The grpc 1.83 server view can report cancellation late; deadlines remain the practical limit for long handlers. The native thread pool rejects excess requests immediately with `RESOURCE_EXHAUSTED`; grpc 1.83 ignores its deprecated `max_waiting_requests` setting.
 
-Configure `tls cert:, key:` for TLS and add `client_ca:` for required client certificates. Native gRPC Health Check/Watch follows named `health_check` callbacks and worker draining. Admin HTTP provides `/livez`, `/readyz`, `/status` and Prometheus `/metrics` at `127.0.0.1:9090` by default. Reflection is planned.
+Configure `tls cert:, key:` for TLS and add `client_ca:` for required client certificates. Native gRPC Health Check/Watch follows named `health_check` callbacks and worker draining. Admin HTTP provides `/livez`, `/readyz`, `/status` and Prometheus `/metrics` at `127.0.0.1:9090` by default. Set `reflection true` to enable standard gRPC Reflection v1/v1alpha; it is disabled by default.
 
 For Linux operations, use `USR1` to replace workers one at a time and `USR2` to load fresh Ruby code/configuration in a new master. The CLI launcher retains probes and metric totals while old masters drain; a failed replacement leaves the active master serving. Configure `worker_recycle` to replace workers by requests, PSS/RSS or lifetime. See the [Kubernetes guide](https://github.com/gritzrpc/gritz-native/blob/main/docs/guides/kubernetes.md).
 
