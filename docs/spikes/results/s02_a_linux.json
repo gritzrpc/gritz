@@ -1,0 +1,43 @@
+{
+  "workers": 4,
+  "tcp_migrate_req": 0,
+  "drain": true,
+  "replacement": false,
+  "max_connection_age_ms": 0,
+  "tally": {
+    "connections": 64,
+    "distribution": {
+      "37": 19,
+      "17": 18,
+      "54": 12,
+      "20": 15
+    },
+    "max_min": 1.5833333333333333
+  },
+  "load": {
+    "grpc": "1.83.0",
+    "ruby": "ruby 3.4.11 (2026-09-23 revision 592f1ffdb3) +PRISM [aarch64-linux]",
+    "connections": 64,
+    "duration": 10.029507105995435,
+    "cpu_ms": 0,
+    "requests": 172714,
+    "rps": 17220.587031316332,
+    "errors": {
+      "GRPC::Cancelled": 4
+    },
+    "distribution": {
+      "54": 60599,
+      "37": 50659,
+      "17": 55371,
+      "20": 6085
+    },
+    "first_seen_seconds": {
+      "54": 0.01795750597375445,
+      "37": 0.01802488198154606,
+      "17": 0.015697488997830078,
+      "20": 0.01822451298357919
+    },
+    "p50_ms": 3.5070909943897277,
+    "p99_ms": 7.930996973300353
+  }
+}

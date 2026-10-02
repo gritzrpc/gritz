@@ -1,0 +1,47 @@
+{
+  "workers": 4,
+  "tcp_migrate_req": 1,
+  "drain": true,
+  "replacement": true,
+  "drained_pid": 1244,
+  "replacement_pid": 1409,
+  "max_connection_age_ms": 10000,
+  "tally": {
+    "connections": 64,
+    "distribution": {
+      "1279": 11,
+      "1244": 18,
+      "1247": 16,
+      "1249": 19
+    },
+    "max_min": 1.7272727272727273
+  },
+  "load": {
+    "grpc": "1.83.0",
+    "ruby": "ruby 3.4.11 (2026-09-23 revision 592f1ffdb3) +PRISM [aarch64-linux]",
+    "connections": 64,
+    "duration": 15.043242371990345,
+    "cpu_ms": 0,
+    "requests": 235049,
+    "rps": 15624.88951435415,
+    "errors": {
+      "GRPC::Cancelled": 12
+    },
+    "distribution": {
+      "1247": 64893,
+      "1409": 42322,
+      "1244": 7437,
+      "1279": 64816,
+      "1249": 55581
+    },
+    "first_seen_seconds": {
+      "1247": 0.018585996003821492,
+      "1409": 1.9827115839871112,
+      "1244": 0.018815877003362402,
+      "1279": 0.018985798000358045,
+      "1249": 0.018447200010996312
+    },
+    "p50_ms": 4.0113989962264895,
+    "p99_ms": 8.782860008068383
+  }
+}

@@ -1,38 +1,98 @@
 # Gritz
 
-TODO: Delete this and the text below, and describe your gem
+Gritz is a Ruby gRPC application framework with controllers, middleware and network-free controller tests. The initial release supports a single-process C-core server and all four RPC forms: unary, server streaming, client streaming and bidirectional streaming.
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/gritz`. To experiment with that code, run `bin/console` for an interactive prompt.
+Requires CRuby 3.3 or later and grpc 1.83 or later. Linux and macOS are tested. Multi-process supervision, Rails integration and the Async adapter are scheduled in the [roadmap](docs/ROADMAP.md).
 
-## Installation
-
-TODO: Replace `UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG` with your gem name right after releasing it to RubyGems.org. Please do not do it earlier due to security reasons. Alternatively, replace this section with instructions to install your gem from git if you don't plan to release to RubyGems.org.
-
-Install the gem and add to the application's Gemfile by executing:
+## Quickstart from source
 
 ```bash
-bundle add UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
+git clone https://github.com/ydah/gritz.git
+cd gritz
+bundle install
+bundle exec ruby exe/gritz routes -C examples/hello/config/gritz.rb
+bundle exec ruby exe/gritz start -C examples/hello/config/gritz.rb
 ```
 
-If bundler is not being used to manage dependencies, install the gem by executing:
+In another terminal, run `bundle exec ruby examples/hello/client.rb`. It calls all four RPC forms. To use grpcurl, supply the bundled proto; reflection is planned for a later release:
 
 ```bash
-gem install UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
+grpcurl -plaintext -import-path examples/hello/proto -proto hello.proto \
+  -d '{"name":"Ruby"}' localhost:50051 helloworld.Greeter/SayHello
 ```
 
-## Usage
+## Controllers
 
-TODO: Write usage instructions here
+```ruby
+class GreeterController < Gritz::Controller
+  bind Helloworld::Greeter::Service
+
+  def say_hello
+    fail!(:invalid_argument, "name is required") if request.message.name.empty?
+    Helloworld::HelloReply.new(message: "Hello, #{request.message.name}!")
+  end
+
+  def chat
+    request.each_message do |message|
+      stream.write(Helloworld::HelloReply.new(message: message.name.upcase))
+    end
+  end
+end
+```
+
+Register controllers in a configuration file:
+
+```ruby
+require_relative "../app/greeter_controller"
+
+workers 0
+threads 16
+bind "127.0.0.1:50051"
+register_controller GreeterController
+strict_routes true # Requires every RPC in the bound service to have an action.
+```
+
+`before_action`, `around_action`, `after_action` and `rescue_from` support inheritance. Each RPC gets its own controller instance. `Gritz::Context.current` carries metadata, deadline, peer, request ID and a per-request store; child fibers and threads inherit it. Requests exceeding their deadline are rejected cooperatively at request reads and response writes. `context.check_deadline!` can also be called during application work.
+
+The default middleware adds request IDs, scopes context, writes JSON completion logs and converts exceptions to gRPC errors. Internal errors expose an `error-id` trailer rather than application exception messages. `fail!` accepts status symbols, trailing metadata and protobuf rich error details. Middleware wraps the full stream, including incremental response writes.
+
+## Testing
+
+```ruby
+require "gritz/testing/rspec"
+
+RSpec.describe GreeterController, type: :rpc do
+  it "greets a user" do
+    reply = rpc(:say_hello, Helloworld::HelloRequest.new(name: "Ruby"))
+    expect(reply.message).to eq("Hello, Ruby!")
+  end
+
+  it "validates names" do
+    expect { rpc(:say_hello, Helloworld::HelloRequest.new) }
+      .to raise_rpc_error(:invalid_argument)
+  end
+end
+```
+
+Minitest tests can include `Gritz::Testing::Minitest` after requiring `gritz/testing/minitest`; pass `controller:` to `rpc` and use `assert_rpc_error`. `Gritz::Testing::Server.start(controllers: [GreeterController]) { |server| ... }` starts a real server on an ephemeral port and stops it when the block exits.
+
+## Configuration and limitations
+
+Configuration precedence is CLI options, `GRITZ_*` environment variables, configuration file, then defaults. See [configuration](docs/guides/configuration.md) for settings and [implementation progress](docs/PROGRESS.md) for the release boundaries.
+
+Use `TERM` or `INT` to finish in-flight calls within `shutdown_timeout`; `QUIT` closes immediately. Application code should check deadlines and cancellation during long work. The grpc 1.83 server view can report cancellation late; deadlines remain the practical limit for long handlers. The native thread pool rejects excess requests immediately with `RESOURCE_EXHAUSTED`; grpc 1.83 ignores its deprecated `max_waiting_requests` setting.
+
+v0.1 binds insecure gRPC sockets. Use a trusted network or a TLS-terminating proxy. TLS, health, reflection, metrics collection and supervisor signals are planned for subsequent phases. Unsupported transport, worker and TLS features fail at CLI startup.
+
+The packages are `gritz-core` (no grpc dependency), `gritz-grpc` (C-core adapter) and `gritz` (the default combination and executable).
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+Run `bundle exec rake`, `COVERAGE=1 bundle exec rspec`, `bundle exec rubocop` and `bundle exec rake build`. The [Linux devcontainer](.devcontainer/devcontainer.json) includes grpcurl and ghz. The [release guide](docs/guides/releasing.md) describes trusted publishing; initial publication requires registering all three pending publishers on RubyGems first.
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/gritz.
+Bug reports and pull requests are welcome on [GitHub](https://github.com/ydah/gritz). See [CONTRIBUTING.md](CONTRIBUTING.md) and [SECURITY.md](SECURITY.md).
 
 ## License
 

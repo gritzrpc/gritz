@@ -1,0 +1,49 @@
+{
+  "grpc": "1.83.0",
+  "ruby": "ruby 3.4.11 (2026-09-23 revision 592f1ffdb3) +PRISM [aarch64-linux]",
+  "hook": "initialize",
+  "constructors": [
+    {
+      "class": "GRPC::Core::Channel",
+      "master_blocked": true,
+      "child_forwarded": false,
+      "location": "GRPC::Core::Channel: spikes/s03_fork_guard/probe.rb:47:in 'Class#new', spikes/s03_fork_guard/probe.rb:47:in 'block in <main>', spikes/s03_fork_guard/probe.rb:60:in 'block in <main>'"
+    },
+    {
+      "class": "GRPC::Core::Server",
+      "master_blocked": true,
+      "child_forwarded": false,
+      "location": "GRPC::Core::Server: spikes/s03_fork_guard/probe.rb:48:in 'Class#new', spikes/s03_fork_guard/probe.rb:48:in 'block in <main>', spikes/s03_fork_guard/probe.rb:60:in 'block in <main>'"
+    },
+    {
+      "class": "GRPC::Core::ChannelCredentials",
+      "master_blocked": true,
+      "child_forwarded": false,
+      "location": "GRPC::Core::ChannelCredentials: spikes/s03_fork_guard/probe.rb:49:in 'Class#new', spikes/s03_fork_guard/probe.rb:49:in 'block in <main>', spikes/s03_fork_guard/probe.rb:60:in 'block in <main>'"
+    },
+    {
+      "class": "GRPC::Core::ServerCredentials",
+      "master_blocked": true,
+      "child_forwarded": false,
+      "location": "GRPC::Core::ServerCredentials: spikes/s03_fork_guard/probe.rb:51:in 'Class#new', spikes/s03_fork_guard/probe.rb:51:in 'block in <main>', spikes/s03_fork_guard/probe.rb:60:in 'block in <main>'"
+    },
+    {
+      "class": "GRPC::Core::CallCredentials",
+      "master_blocked": true,
+      "child_forwarded": false,
+      "location": "GRPC::Core::CallCredentials: spikes/s03_fork_guard/probe.rb:53:in 'Class#new', spikes/s03_fork_guard/probe.rb:53:in 'block in <main>', spikes/s03_fork_guard/probe.rb:60:in 'block in <main>'"
+    },
+    {
+      "class": "GRPC::ClientStub",
+      "master_blocked": true,
+      "child_forwarded": false,
+      "location": "GRPC::ClientStub: spikes/s03_fork_guard/probe.rb:54:in 'Class#new', spikes/s03_fork_guard/probe.rb:54:in 'block in <main>', spikes/s03_fork_guard/probe.rb:60:in 'block in <main>'"
+    },
+    {
+      "class": "GRPC::RpcServer",
+      "master_blocked": true,
+      "child_forwarded": false,
+      "location": "GRPC::RpcServer: spikes/s03_fork_guard/probe.rb:55:in 'Class#new', spikes/s03_fork_guard/probe.rb:55:in 'block in <main>', spikes/s03_fork_guard/probe.rb:60:in 'block in <main>'"
+    }
+  ]
+}
