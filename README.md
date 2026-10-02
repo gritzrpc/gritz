@@ -1,6 +1,6 @@
 # Gritz
 
-Gritz is a Ruby gRPC application framework with controllers, middleware and network-free controller tests. It supports a single-process C-core server and all four RPC forms: unary, server streaming, client streaming and bidirectional streaming.
+Gritz is a Ruby gRPC application framework with controllers, middleware and network-free controller tests. It supports a single-process native server, Linux forked-worker supervision, and all four RPC forms: unary, server streaming, client streaming and bidirectional streaming.
 
 Requires CRuby 3.3 or later and grpc 1.83 or later. Linux and macOS are tested.
 
@@ -12,7 +12,7 @@ Requires CRuby 3.3 or later and grpc 1.83 or later. Linux and macOS are tested.
 | `gritz-core` | [gritzrpc/gritz-core](https://github.com/gritzrpc/gritz-core) | Transport-independent application framework |
 | `gritz-native` | [gritzrpc/gritz-native](https://github.com/gritzrpc/gritz-native) | Official grpc gem adapter and thread pool |
 
-After v0.1.0 is published, applications can add `gem "gritz", "~> 0.1.0"` to their Gemfile. It installs both the core and native adapter. The Fiber adapter `gritz-async` and integrations `gritz-rails` / `gritz-otel` are planned.
+Applications can add `gem "gritz", "~> 0.2.0"` to their Gemfile. It installs both the core and native adapter. The Fiber adapter `gritz-async` and integrations `gritz-rails` / `gritz-otel` are planned.
 
 ## Quickstart from source
 
@@ -55,7 +55,7 @@ Register controllers in a configuration file:
 ```ruby
 require_relative "../app/greeter_controller"
 
-workers 0
+workers 0 # Use workers 4 with a fixed bind port for Linux multiprocess serving.
 threads 16
 bind "127.0.0.1:50051"
 register_controller GreeterController
@@ -93,7 +93,7 @@ Configuration precedence is CLI options, `GRITZ_*` environment variables, config
 
 Use `TERM` or `INT` to finish in-flight calls within `shutdown_timeout`; `QUIT` closes immediately. Application code should check deadlines and cancellation during long work. The grpc 1.83 server view can report cancellation late; deadlines remain the practical limit for long handlers. The native thread pool rejects excess requests immediately with `RESOURCE_EXHAUSTED`; grpc 1.83 ignores its deprecated `max_waiting_requests` setting.
 
-The server binds insecure gRPC sockets. Use a trusted network or a TLS-terminating proxy. Native TLS, health checks, reflection, metrics export and multi-process supervision are unavailable. Unsupported transport, worker and TLS features fail at startup.
+The server binds insecure gRPC sockets. Use a trusted network or a TLS-terminating proxy. Native TLS, health checks, reflection and metrics export are unavailable. Unsupported transport and TLS features fail at startup.
 
 The default transport is `:native` (`Gritz::Transport::Native`). `gritz-core` can be loaded separately with `require "gritz/core"` without loading grpc.
 
