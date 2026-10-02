@@ -1,5 +1,15 @@
 # frozen_string_literal: true
 
+if ENV["COVERAGE"]
+  require "simplecov"
+  SimpleCov.start do
+    add_filter "/spec/"
+    add_filter "/examples/"
+    enable_coverage :branch
+    minimum_coverage line: 90
+  end
+end
+
 require "gritz"
 
 RSpec.configure do |config|

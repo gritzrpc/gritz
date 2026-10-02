@@ -5,7 +5,7 @@ RSpec.describe Gritz do
     expect(Gritz::VERSION).not_to be nil
   end
 
-  it "does something useful" do
-    expect(false).to eq(true)
+  it "loads the controller framework" do
+    expect(Gritz.const_defined?(:Controller)).to be true
   end
 end

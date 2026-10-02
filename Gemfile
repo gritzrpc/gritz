@@ -2,10 +2,16 @@
 
 source "https://rubygems.org"
 
-# Specify your gem's dependencies in gritz.gemspec
 gemspec
+gem "gritz-core", path: "gems/gritz-core"
+gem "gritz-grpc", path: "gems/gritz-grpc"
+gem "grpc", ENV["GRPC_VERSION"] if ENV["GRPC_VERSION"]
 
-gem "irb"
+gem "bundler-audit", "~> 0.9"
+gem "grpc-tools", "~> 1.83"
+gem "minitest", "~> 5.0"
 gem "rake", "~> 13.0"
-
 gem "rspec", "~> 3.0"
+gem "rubocop", "~> 1.75"
+gem "simplecov", "~> 0.22.0"
+gem "yard", "~> 0.9"
