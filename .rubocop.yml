@@ -6,6 +6,9 @@ AllCops:
     - examples/hello/lib/*_pb.rb
     - spikes/**/lib/*_pb.rb
     - spikes/**/*
+    - vendor/**/*
+    - tmp/**/*
+    - coverage/**/*
 
 Style/StringLiterals:
   EnforcedStyle: double_quotes
