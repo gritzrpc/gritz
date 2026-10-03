@@ -15,6 +15,7 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = ">= 3.3"
   spec.metadata["allowed_push_host"] = "https://rubygems.org"
   spec.metadata["source_code_uri"] = spec.homepage
+  spec.metadata["documentation_uri"] = "https://gritzrpc.github.io/gritz/"
   spec.metadata["changelog_uri"] = "#{spec.homepage}/blob/main/CHANGELOG.md"
 
   spec.metadata["rubygems_mfa_required"] = "true"
@@ -24,6 +25,6 @@ Gem::Specification.new do |spec|
   spec.executables = ["gritz"]
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "gritz-core", "= 0.6.1"
-  spec.add_dependency "gritz-native", "= 0.6.1"
+  spec.add_dependency "gritz-core", "= 0.9.0"
+  spec.add_dependency "gritz-native", "= 0.9.0"
 end

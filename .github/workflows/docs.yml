@@ -1,0 +1,69 @@
+name: Documentation
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: documentation
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    defaults:
+      run:
+        working-directory: sources/gritz
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          path: sources/gritz
+          persist-credentials: false
+      - uses: actions/checkout@v6
+        with:
+          repository: gritzrpc/gritz-core
+          path: sources/gritz-core
+          persist-credentials: false
+      - uses: actions/checkout@v6
+        with:
+          repository: gritzrpc/gritz-native
+          path: sources/gritz-native
+          persist-credentials: false
+      - uses: actions/checkout@v6
+        with:
+          repository: gritzrpc/gritz-otel
+          path: sources/gritz-otel
+          persist-credentials: false
+      - uses: actions/checkout@v6
+        with:
+          repository: gritzrpc/gritz-rails
+          path: sources/gritz-rails
+          persist-credentials: false
+      - uses: actions/checkout@v6
+        with:
+          repository: gritzrpc/gritz-async
+          path: sources/gritz-async
+          persist-credentials: false
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.4'
+          working-directory: sources/gritz
+          bundler-cache: true
+      - uses: actions/configure-pages@v5
+      - name: Build and verify guides and public API
+        run: bundle exec ruby tools/build_docs.rb
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: sources/gritz/doc
+      - uses: actions/deploy-pages@v4
+        id: deployment

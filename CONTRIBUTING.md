@@ -1,5 +1,7 @@
 # Contributing
 
+The documentation build uses YARD from the development bundle. Clone all six Gritz repositories as sibling directories, then run `bundle exec ruby tools/build_docs.rb` in `gritz`. It generates and checks the guides, public API navigation and local links in `doc/`; main pushes publish that directory through GitHub Pages.
+
 Use CRuby 3.3 or later. Run `bundle install`, then `bundle exec rake`, `bundle exec rubocop` and `bundle exec rake build`. Run `COVERAGE=1 bundle exec rspec` to check line coverage. Socket-related changes must pass the real gRPC integration tests on Linux.
 
 Write a failing behavior test before changing nontrivial logic. Keep commits focused. Commit directly to `main`; do not create pull requests. Use Conventional Commits without task IDs or PR numbers in subjects or bodies. Public API comments use YARD's `@api public` tag. Avoid loading optional testing libraries in production.

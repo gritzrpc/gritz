@@ -1,0 +1,522 @@
+Gritz
+Gritz::Async
+Gritz::Async::Service
+Gritz::Async::Service.rpc_descs def rpc_descs
+Gritz::Async::Service.service_name def service_name
+Gritz::Async::Service.service_name= def service_name=(value)
+Gritz::Async::Service::Descriptor
+Gritz::Async::Service::Descriptor#bidi_streamer? def bidi_streamer?
+Gritz::Async::Service::Descriptor#client_streamer? def client_streamer?
+Gritz::Async::Service::Descriptor#input def input
+Gritz::Async::Service::Descriptor#output def output
+Gritz::Async::Service::Descriptor#server_streamer? def server_streamer?
+Gritz::Async::VERSION
+Gritz::CLI
+Gritz::CLI#initialize def initialize(stdout: $stdout, stderr: $stderr, env: ENV, status_io: nil, owner_io: nil, launch: false, launch_command: nil)
+Gritz::CLI#run def run(argv)
+Gritz::CLI.child_command def child_command(argv)
+Gritz::CLI::CHILD_BOOTSTRAP
+Gritz::Call
+Gritz::Call#cancelled? def cancelled?
+Gritz::Call#deadline def deadline
+Gritz::Call#each_message def each_message
+Gritz::Call#merge_initial_metadata def merge_initial_metadata(metadata = {})
+Gritz::Call#metadata def metadata
+Gritz::Call#method_descriptor def method_descriptor
+Gritz::Call#peer def peer
+Gritz::Call#peer_identity def peer_identity
+Gritz::Call#read def read
+Gritz::Call#send_initial_metadata def send_initial_metadata(metadata = {})
+Gritz::Call#trailing_metadata def trailing_metadata
+Gritz::Call#write def write(message)
+Gritz::Client
+Gritz::Client.adapter def adapter
+Gritz::Client.adapter= def adapter=(value)
+Gritz::Client.define def define(stub_class, target:, credentials: :insecure, channel_args: {}, deadline: nil, safety_margin: 0.01, service_config: nil, middleware: nil, adapter: nil)
+Gritz::Client.middleware def middleware
+Gritz::Client.middleware= def middleware=(stack)
+Gritz::Client::CallContext
+Gritz::Client::CallContext#cancelled? def cancelled?
+Gritz::Client::CallContext#check_cancelled! def check_cancelled!
+Gritz::Client::CallContext#check_deadline! def check_deadline!
+Gritz::Client::CallContext#deadline def deadline
+Gritz::Client::CallContext#initialize def initialize(method:, kind:, request:, options:, parent:, terminal:)
+Gritz::Client::CallContext#kind def kind
+Gritz::Client::CallContext#logger def logger
+Gritz::Client::CallContext#metadata def metadata
+Gritz::Client::CallContext#method def method
+Gritz::Client::CallContext#operation def operation
+Gritz::Client::CallContext#operation= def operation=(value)
+Gritz::Client::CallContext#options def options
+Gritz::Client::CallContext#parent def parent
+Gritz::Client::CallContext#remaining def remaining
+Gritz::Client::CallContext#request def request
+Gritz::Client::CallContext#request= def request=(value)
+Gritz::Client::CallContext#request_id def request_id
+Gritz::Client::CallContext#response_block def response_block
+Gritz::Client::CallContext#response_block= def response_block=(value)
+Gritz::Client::CallContext#store def store
+Gritz::Client::CallContext#trace_context def trace_context
+Gritz::Client::CallContext#trace_context= def trace_context=(value)
+Gritz::Compat::Gruf
+Gritz::Compat::Gruf.interceptor def interceptor(klass)
+Gritz::Compat::Gruf::ActiveCall
+Gritz::Compat::Gruf::ActiveCall#cancelled? def cancelled?
+Gritz::Compat::Gruf::ActiveCall#deadline def deadline
+Gritz::Compat::Gruf::ActiveCall#initialize def initialize(context)
+Gritz::Compat::Gruf::ActiveCall#metadata def metadata
+Gritz::Compat::Gruf::ActiveCall#output_metadata def output_metadata
+Gritz::Compat::Gruf::ActiveCall#peer def peer
+Gritz::Compat::Gruf::Base
+Gritz::Compat::Gruf::ConfigConverter
+Gritz::Compat::Gruf::ConfigConverter#convert def convert(source)
+Gritz::Compat::Gruf::ConfigConverter::ARGUMENTS
+Gritz::Compat::Gruf::Controller
+Gritz::Compat::Gruf::Controller#error def error
+Gritz::Compat::Gruf::Controller#initialize def initialize(context:)
+Gritz::Compat::Gruf::Controller#process def process(action)
+Gritz::Compat::Gruf::Controller.action_defined? def action_defined?(action)
+Gritz::Compat::Gruf::Controller.bound_service def bound_service
+Gritz::Compat::Gruf::Error
+Gritz::Compat::Gruf::Error#add_field_error def add_field_error(field, code, message = "")
+Gritz::Compat::Gruf::Error#app_code def app_code
+Gritz::Compat::Gruf::Error#app_code= def app_code=(value)
+Gritz::Compat::Gruf::Error#code def code
+Gritz::Compat::Gruf::Error#code= def code=(value)
+Gritz::Compat::Gruf::Error#debug_info def debug_info
+Gritz::Compat::Gruf::Error#fail! def fail!(_active_call = nil)
+Gritz::Compat::Gruf::Error#field_errors def field_errors
+Gritz::Compat::Gruf::Error#has_field_errors? def has_field_errors?
+Gritz::Compat::Gruf::Error#initialize def initialize
+Gritz::Compat::Gruf::Error#message def message
+Gritz::Compat::Gruf::Error#message= def message=(value)
+Gritz::Compat::Gruf::Error#metadata def metadata
+Gritz::Compat::Gruf::Error#metadata= def metadata=(value)
+Gritz::Compat::Gruf::Error#set_debug_info def set_debug_info(detail, stack_trace = [])
+Gritz::Compat::Gruf::Error#to_h def to_h
+Gritz::Compat::Gruf::Error::DebugInfo
+Gritz::Compat::Gruf::Error::Field
+Gritz::Compat::Gruf::ErrorHelpers
+Gritz::Compat::Gruf::ErrorHelpers#add_field_error def add_field_error(...)
+Gritz::Compat::Gruf::ErrorHelpers#fail! def fail!(code, app_code = nil, message = "", metadata = {})
+Gritz::Compat::Gruf::ErrorHelpers#has_field_errors? def has_field_errors?
+Gritz::Compat::Gruf::ErrorHelpers#set_debug_info def set_debug_info(...)
+Gritz::Compat::Gruf::REQUEST_KEY
+Gritz::Compat::Gruf::Request
+Gritz::Compat::Gruf::Request#active_call def active_call
+Gritz::Compat::Gruf::Request#bidi_streamer? def bidi_streamer?
+Gritz::Compat::Gruf::Request#client_streamer? def client_streamer?
+Gritz::Compat::Gruf::Request#context def context
+Gritz::Compat::Gruf::Request#error def error
+Gritz::Compat::Gruf::Request#initialize def initialize(context)
+Gritz::Compat::Gruf::Request#message def message
+Gritz::Compat::Gruf::Request#messages def messages(&block)
+Gritz::Compat::Gruf::Request#metadata def metadata
+Gritz::Compat::Gruf::Request#method_key def method_key
+Gritz::Compat::Gruf::Request#method_name def method_name
+Gritz::Compat::Gruf::Request#request_class def request_class
+Gritz::Compat::Gruf::Request#request_response? def request_response?
+Gritz::Compat::Gruf::Request#response_class def response_class
+Gritz::Compat::Gruf::Request#server_streamer? def server_streamer?
+Gritz::Compat::Gruf::Request#service def service
+Gritz::Compat::Gruf::Request#service_key def service_key
+Gritz::Compat::Gruf::Request#type def type
+Gritz::Compat::Gruf::RequestContext
+Gritz::Compat::Gruf::RequestContext#[] def [](key)
+Gritz::Compat::Gruf::RequestContext#[]= def []=(key, value)
+Gritz::Compat::Gruf::RequestContext#fetch def fetch(key, ...)
+Gritz::Compat::Gruf::RequestContext#key? def key?(key)
+Gritz::Compat::Gruf::RequestContext#merge! def merge!(other, &)
+Gritz::Compat::Gruf::RequestContext#update def merge!(other, &)
+Gritz::Compat::Gruf::ServerInterceptor
+Gritz::Compat::Gruf::ServerInterceptor#error def error
+Gritz::Compat::Gruf::ServerInterceptor#initialize def initialize(request, error, options = {})
+Gritz::Compat::Gruf::ServerInterceptor#options def options
+Gritz::Compat::Gruf::ServerInterceptor#request def request
+Gritz::Configuration
+Gritz::Configuration#add_hook def add_hook(name, &block)
+Gritz::Configuration#add_preloader def add_preloader(&block)
+Gritz::Configuration#admin_bind def admin_bind
+Gritz::Configuration#admin_bind= def admin_bind=(value)
+Gritz::Configuration#bind def bind
+Gritz::Configuration#bind= def bind=(value)
+Gritz::Configuration#controllers def controllers
+Gritz::Configuration#controllers= def controllers=(value)
+Gritz::Configuration#drain_delay def drain_delay
+Gritz::Configuration#drain_delay= def drain_delay=(value)
+Gritz::Configuration#fork_guard def fork_guard
+Gritz::Configuration#fork_guard= def fork_guard=(value)
+Gritz::Configuration#fork_mode def fork_mode
+Gritz::Configuration#fork_mode= def fork_mode=(value)
+Gritz::Configuration#health_checks def health_checks
+Gritz::Configuration#initialize def initialize
+Gritz::Configuration#keepalive_permit_without_calls def keepalive_permit_without_calls
+Gritz::Configuration#keepalive_permit_without_calls= def keepalive_permit_without_calls=(value)
+Gritz::Configuration#keepalive_time def keepalive_time
+Gritz::Configuration#keepalive_time= def keepalive_time=(value)
+Gritz::Configuration#listener_strategy def listener_strategy
+Gritz::Configuration#listener_strategy= def listener_strategy=(value)
+Gritz::Configuration#log_format def log_format
+Gritz::Configuration#log_format= def log_format=(value)
+Gritz::Configuration#log_redact def log_redact
+Gritz::Configuration#log_redact= def log_redact=(value)
+Gritz::Configuration#max_connection_age def max_connection_age
+Gritz::Configuration#max_connection_age= def max_connection_age=(value)
+Gritz::Configuration#max_connection_age_grace def max_connection_age_grace
+Gritz::Configuration#max_connection_age_grace= def max_connection_age_grace=(value)
+Gritz::Configuration#max_metadata_size def max_metadata_size
+Gritz::Configuration#max_metadata_size= def max_metadata_size=(value)
+Gritz::Configuration#max_receive_message_size def max_receive_message_size
+Gritz::Configuration#max_receive_message_size= def max_receive_message_size=(value)
+Gritz::Configuration#max_send_message_size def max_send_message_size
+Gritz::Configuration#max_send_message_size= def max_send_message_size=(value)
+Gritz::Configuration#max_waiting_requests def max_waiting_requests
+Gritz::Configuration#max_waiting_requests= def max_waiting_requests=(value)
+Gritz::Configuration#metrics_backend def metrics_backend
+Gritz::Configuration#metrics_backend= def metrics_backend=(value)
+Gritz::Configuration#metrics_recorder_factory def metrics_recorder_factory
+Gritz::Configuration#metrics_recorder_factory= def metrics_recorder_factory=(value)
+Gritz::Configuration#middleware def middleware
+Gritz::Configuration#middleware= def middleware=(value)
+Gritz::Configuration#min_ready_workers def min_ready_workers
+Gritz::Configuration#min_ready_workers= def min_ready_workers=(value)
+Gritz::Configuration#phased_restart_surge def phased_restart_surge
+Gritz::Configuration#phased_restart_surge= def phased_restart_surge=(value)
+Gritz::Configuration#pid_file def pid_file
+Gritz::Configuration#pid_file= def pid_file=(value)
+Gritz::Configuration#preload! def preload!
+Gritz::Configuration#preload_app def preload_app
+Gritz::Configuration#preload_app= def preload_app=(value)
+Gritz::Configuration#preload_app? def preload_app?
+Gritz::Configuration#reexec_timeout def reexec_timeout
+Gritz::Configuration#reexec_timeout= def reexec_timeout=(value)
+Gritz::Configuration#reflection def reflection
+Gritz::Configuration#reflection= def reflection=(value)
+Gritz::Configuration#run_hooks def run_hooks(name, *args)
+Gritz::Configuration#server_args def server_args
+Gritz::Configuration#shutdown_timeout def shutdown_timeout
+Gritz::Configuration#shutdown_timeout= def shutdown_timeout=(value)
+Gritz::Configuration#status_interval def status_interval
+Gritz::Configuration#status_interval= def status_interval=(value)
+Gritz::Configuration#strict_routes def strict_routes
+Gritz::Configuration#strict_routes= def strict_routes=(value)
+Gritz::Configuration#threads def threads
+Gritz::Configuration#threads= def threads=(value)
+Gritz::Configuration#tls def tls
+Gritz::Configuration#tls= def tls=(value)
+Gritz::Configuration#transport def transport
+Gritz::Configuration#transport= def transport=(value)
+Gritz::Configuration#validate! def validate!
+Gritz::Configuration#validate_runtime! def validate_runtime!
+Gritz::Configuration#validate_single_process! def validate_single_process!
+Gritz::Configuration#worker_boot_timeout def worker_boot_timeout
+Gritz::Configuration#worker_boot_timeout= def worker_boot_timeout=(value)
+Gritz::Configuration#worker_recycle def worker_recycle
+Gritz::Configuration#worker_recycle= def worker_recycle=(value)
+Gritz::Configuration#worker_timeout def worker_timeout
+Gritz::Configuration#worker_timeout= def worker_timeout=(value)
+Gritz::Configuration#workers def workers
+Gritz::Configuration#workers= def workers=(value)
+Gritz::Configuration.load def load(path: nil, env: ENV, overrides: {})
+Gritz::Configuration.parse_environment def parse_environment(name, value)
+Gritz::Configuration::DEFAULTS
+Gritz::Configuration::ENUMS
+Gritz::Configuration::HOOKS
+Gritz::ConfigurationError
+Gritz::Context
+Gritz::Context#bytes_in def bytes_in
+Gritz::Context#bytes_out def bytes_out
+Gritz::Context#call def call
+Gritz::Context#cancelled? def cancelled?
+Gritz::Context#check_cancelled! def check_cancelled!
+Gritz::Context#check_deadline! def check_deadline!
+Gritz::Context#deadline def deadline
+Gritz::Context#initialize def initialize(call:, logger:, metrics: nil, worker: nil, log_format: :json, log_redact: [])
+Gritz::Context#log_format def log_format
+Gritz::Context#log_redact def log_redact
+Gritz::Context#logger def logger
+Gritz::Context#metadata def metadata
+Gritz::Context#method def method
+Gritz::Context#metrics def metrics
+Gritz::Context#peer def peer
+Gritz::Context#peer_identity def peer_identity
+Gritz::Context#remaining def remaining
+Gritz::Context#request_id def request_id
+Gritz::Context#request_id= def request_id=(value)
+Gritz::Context#requests_count def requests_count
+Gritz::Context#responses_count def responses_count
+Gritz::Context#store def store
+Gritz::Context#trace_context def trace_context
+Gritz::Context#trace_context= def trace_context=(value)
+Gritz::Context#worker def worker
+Gritz::Context.current def current
+Gritz::Context.with def with(context)
+Gritz::Controller
+Gritz::Controller#context def context
+Gritz::Controller#fail! def fail!(code, message = nil, details: [], metadata: {})
+Gritz::Controller#initialize def initialize(context:)
+Gritz::Controller#process def process(action)
+Gritz::Controller#request def request
+Gritz::Controller#stream def stream
+Gritz::Controller.action_defined? def action_defined?(action)
+Gritz::Controller.bind def bind(service)
+Gritz::Controller.filters def filters
+Gritz::Controller.rescue_from def rescue_from(*errors, with: nil, &block)
+Gritz::Controller.rescue_handlers def rescue_handlers
+Gritz::Controller.service_class def service_class
+Gritz::Controller::Request
+Gritz::Controller::Request#each_message def each_message
+Gritz::Controller::Request#initialize def initialize(call, context)
+Gritz::Controller::Request#message def message
+Gritz::Controller::Request#messages def each_message
+Gritz::Controller::Request::STORE_KEY
+Gritz::Controller::Stream
+Gritz::Controller::Stream#initialize def initialize(call, context)
+Gritz::Controller::Stream#write def write(message)
+Gritz::Core
+Gritz::DSL
+Gritz::DSL#admin_bind def admin_bind(value)
+Gritz::DSL#before_fork def before_fork(&block)
+Gritz::DSL#bind def bind(value)
+Gritz::DSL#drain_delay def drain_delay(value)
+Gritz::DSL#evaluate def evaluate(path)
+Gritz::DSL#fork_guard def fork_guard(value)
+Gritz::DSL#fork_mode def fork_mode(value)
+Gritz::DSL#health_check def health_check(name, &block)
+Gritz::DSL#initialize def initialize(config)
+Gritz::DSL#keepalive_permit_without_calls def keepalive_permit_without_calls(value)
+Gritz::DSL#keepalive_time def keepalive_time(value)
+Gritz::DSL#listener_strategy def listener_strategy(value)
+Gritz::DSL#log_format def log_format(value)
+Gritz::DSL#log_redact def log_redact(value)
+Gritz::DSL#max_connection_age def max_connection_age(value)
+Gritz::DSL#max_connection_age_grace def max_connection_age_grace(value)
+Gritz::DSL#max_metadata_size def max_metadata_size(value)
+Gritz::DSL#max_receive_message_size def max_receive_message_size(value)
+Gritz::DSL#max_send_message_size def max_send_message_size(value)
+Gritz::DSL#max_waiting_requests def max_waiting_requests(value)
+Gritz::DSL#method_missing def method_missing(name, *_args)
+Gritz::DSL#metrics_backend def metrics_backend(value)
+Gritz::DSL#middleware def middleware
+Gritz::DSL#min_ready_workers def min_ready_workers(value)
+Gritz::DSL#on_worker_boot def on_worker_boot(&block)
+Gritz::DSL#on_worker_shutdown def on_worker_shutdown(&block)
+Gritz::DSL#phased_restart_surge def phased_restart_surge(value)
+Gritz::DSL#pid_file def pid_file(value)
+Gritz::DSL#preload_app! def preload_app!(&)
+Gritz::DSL#reexec_timeout def reexec_timeout(value)
+Gritz::DSL#reflection def reflection(value)
+Gritz::DSL#register_controller def register_controller(*controllers)
+Gritz::DSL#respond_to_missing? def respond_to_missing?(_name, _include_private = false)
+Gritz::DSL#shutdown_timeout def shutdown_timeout(value)
+Gritz::DSL#status_interval def status_interval(value)
+Gritz::DSL#strict_routes def strict_routes(value)
+Gritz::DSL#threads def threads(value)
+Gritz::DSL#tls def tls(value)
+Gritz::DSL#transport def transport(value)
+Gritz::DSL#worker_boot_timeout def worker_boot_timeout(value)
+Gritz::DSL#worker_recycle def worker_recycle(value)
+Gritz::DSL#worker_timeout def worker_timeout(value)
+Gritz::DSL#workers def workers(value)
+Gritz::DeadlineExceeded
+Gritz::Dispatcher
+Gritz::Dispatcher#call def call(call)
+Gritz::Dispatcher#initialize def initialize(router:, middleware: Middleware::Stack.default, logger: Logger.new($stdout), metrics: nil, worker: nil, log_format: :json, log_redact: [])
+Gritz::Dispatcher#router def router
+Gritz::Error
+Gritz::Error#code def code
+Gritz::Error#details def details
+Gritz::Error#grpc_code def grpc_code
+Gritz::Error#initialize def initialize(message = nil, details: [], metadata: {}, remote: false)
+Gritz::Error#metadata def metadata
+Gritz::Error#remote? def remote?
+Gritz::Error::CODE
+Gritz::Error::GRPC_CODE
+Gritz::Errors
+Gritz::Errors.for_code def for_code(code)
+Gritz::Errors::Aborted
+Gritz::Errors::AlreadyExists
+Gritz::Errors::CODES
+Gritz::Errors::Cancelled
+Gritz::Errors::DataLoss
+Gritz::Errors::DeadlineExceeded
+Gritz::Errors::FailedPrecondition
+Gritz::Errors::Internal
+Gritz::Errors::InvalidArgument
+Gritz::Errors::NotFound
+Gritz::Errors::Ok
+Gritz::Errors::OutOfRange
+Gritz::Errors::PermissionDenied
+Gritz::Errors::ResourceExhausted
+Gritz::Errors::Unauthenticated
+Gritz::Errors::Unavailable
+Gritz::Errors::Unimplemented
+Gritz::Errors::Unknown
+Gritz::ForkGuard
+Gritz::ForkGuard#initialize def initialize(mode:, logger:, master_pid:)
+Gritz::ForkGuard#logger def logger
+Gritz::ForkGuard#master? def master?
+Gritz::ForkGuard#master_pid def master_pid
+Gritz::ForkGuard#mode def mode
+Gritz::ForkGuard#violations def violations
+Gritz::ForkGuard.activate def activate(mode: :raise, logger: nil, master_pid: Process.pid)
+Gritz::ForkGuard.check! def check!(klass)
+Gritz::ForkGuard.current def current
+Gritz::ForkGuard.deactivate def deactivate
+Gritz::ForkGuard.install def install(klass)
+Gritz::ForkGuard.master? def master?
+Gritz::ForkGuard::Violation
+Gritz::ForkGuard::Violation#initialize def initialize(klass, locations)
+Gritz::ForkGuard::Violation#klass def klass
+Gritz::ForkGuard::Violation#locations def locations
+Gritz::Generators
+Gritz::Generators::ControllerGenerator
+Gritz::Generators::ControllerGenerator#create_controller def create_controller
+Gritz::Generators::InstallGenerator
+Gritz::Generators::InstallGenerator#install def install
+Gritz::MethodDescriptor
+Gritz::MethodDescriptor#action def action
+Gritz::MethodDescriptor#client_streaming? def client_streaming?
+Gritz::MethodDescriptor#controller def controller
+Gritz::MethodDescriptor#full_name def full_name
+Gritz::MethodDescriptor#initialize def initialize(service:, name:, input_type:, output_type:, client_streaming: false, server_streaming: false, controller: nil, service_class: nil)
+Gritz::MethodDescriptor#input_type def input_type
+Gritz::MethodDescriptor#kind def kind
+Gritz::MethodDescriptor#name def name
+Gritz::MethodDescriptor#output_type def output_type
+Gritz::MethodDescriptor#server_streaming? def server_streaming?
+Gritz::MethodDescriptor#service def service
+Gritz::MethodDescriptor#service_class def service_class
+Gritz::Metrics
+Gritz::Middleware
+Gritz::Middleware::Context
+Gritz::Middleware::Context#call def call(context)
+Gritz::Middleware::Context#initialize def initialize(app)
+Gritz::Middleware::ExceptionMapper
+Gritz::Middleware::ExceptionMapper#call def call(context)
+Gritz::Middleware::ExceptionMapper#initialize def initialize(app, mappings: {}, expose_errors: false, passthrough_remote_errors: false)
+Gritz::Middleware::Logging
+Gritz::Middleware::Logging#call def call(context)
+Gritz::Middleware::Logging#initialize def initialize(app)
+Gritz::Middleware::Metrics
+Gritz::Middleware::Metrics#call def call(context)
+Gritz::Middleware::Metrics#initialize def initialize(app)
+Gritz::Middleware::RequestId
+Gritz::Middleware::RequestId#call def call(context)
+Gritz::Middleware::RequestId#initialize def initialize(app)
+Gritz::Middleware::Stack
+Gritz::Middleware::Stack#build def build(app)
+Gritz::Middleware::Stack#delete def delete(middleware)
+Gritz::Middleware::Stack#entries def entries
+Gritz::Middleware::Stack#initialize def initialize
+Gritz::Middleware::Stack#initialize_copy def initialize_copy(other)
+Gritz::Middleware::Stack#insert_after def insert_after(target, middleware, **options, &block)
+Gritz::Middleware::Stack#insert_before def insert_before(target, middleware, **options, &block)
+Gritz::Middleware::Stack#swap def swap(target, middleware, **options, &block)
+Gritz::Middleware::Stack#use def use(middleware, **options, &block)
+Gritz::Middleware::Stack.default def default
+Gritz::Middleware::Stack::Entry
+Gritz::Native
+Gritz::Native::VERSION
+Gritz::Otel
+Gritz::Otel.install def install(config, &configure)
+Gritz::Otel::ConfigurationDSL
+Gritz::Otel::ConfigurationDSL#opentelemetry def opentelemetry(&)
+Gritz::Otel::VERSION
+Gritz::Rails
+Gritz::Rails.install def install(config, application: ::Rails.application)
+Gritz::Rails::ConfigurationDSL
+Gritz::Rails::ConfigurationDSL#rails_app def rails_app(path = "config/environment.rb")
+Gritz::Rails::Executor
+Gritz::Rails::Executor#call def call(context)
+Gritz::Rails::Executor#initialize def initialize(app, application:, development: false)
+Gritz::Rails::VERSION
+Gritz::Router
+Gritz::Router#initialize def initialize(controllers:, strict: false, logger: nil)
+Gritz::Router#resolve def resolve(full_name)
+Gritz::Router#routes def routes
+Gritz::Supervisor
+Gritz::Supervisor::Master
+Gritz::Supervisor::Master#initialize def initialize(config, logger: Logger.new($stdout), status_io: nil, owner_channel: nil, listener: nil)
+Gritz::Supervisor::Master#ready? def ready?
+Gritz::Supervisor::Master#run def run
+Gritz::Supervisor::Master#status def status
+Gritz::Supervisor::Master#workers def workers
+Gritz::Supervisor::Master::SIGNALS
+Gritz::Testing
+Gritz::Testing::Cluster
+Gritz::Testing::Cluster#initialize def initialize(config_path:, env: {}, command: nil)
+Gritz::Testing::Cluster#logs def logs
+Gritz::Testing::Cluster#master_pid def master_pid
+Gritz::Testing::Cluster#pid def pid
+Gritz::Testing::Cluster#signal def signal(name, pid: @pid)
+Gritz::Testing::Cluster#start def start
+Gritz::Testing::Cluster#status def status
+Gritz::Testing::Cluster#stop def stop(timeout: 10)
+Gritz::Testing::Cluster#wait def wait(timeout: 10)
+Gritz::Testing::Cluster#wait_until def wait_until(state: "ready", workers: nil, timeout: 10)
+Gritz::Testing::Cluster#workers def workers
+Gritz::Testing::Cluster.start def start(**)
+Gritz::Testing::Cluster::MAX_LOG_BYTES
+Gritz::Testing::InMemoryCall
+Gritz::Testing::InMemoryCall#cancel! def cancel!
+Gritz::Testing::InMemoryCall#cancelled? def cancelled?
+Gritz::Testing::InMemoryCall#deadline def deadline
+Gritz::Testing::InMemoryCall#initial_metadata def initial_metadata
+Gritz::Testing::InMemoryCall#initialize def initialize(method_descriptor:, messages:, metadata: {}, deadline: nil, peer: nil, peer_identity: nil)
+Gritz::Testing::InMemoryCall#merge_initial_metadata def send_initial_metadata(metadata = {})
+Gritz::Testing::InMemoryCall#metadata def metadata
+Gritz::Testing::InMemoryCall#method_descriptor def method_descriptor
+Gritz::Testing::InMemoryCall#peer def peer
+Gritz::Testing::InMemoryCall#peer_identity def peer_identity
+Gritz::Testing::InMemoryCall#read def read
+Gritz::Testing::InMemoryCall#responses def responses
+Gritz::Testing::InMemoryCall#send_initial_metadata def send_initial_metadata(metadata = {})
+Gritz::Testing::InMemoryCall#trailing_metadata def trailing_metadata
+Gritz::Testing::InMemoryCall#write def write(message)
+Gritz::Testing::Minitest
+Gritz::Testing::Minitest#assert_rpc_error def assert_rpc_error(code, message = nil, &)
+Gritz::Testing::RpcHelper
+Gritz::Testing::RpcHelper#last_rpc_call def last_rpc_call
+Gritz::Testing::RpcHelper#rpc def rpc(action, messages, controller: nil, metadata: {}, deadline: nil, peer: nil, peer_identity: nil, middleware: true, logger: Logger.new(File::NULL))
+Gritz::Testing::Rspec
+Gritz::Testing::Rspec.install def install
+Gritz::Testing::Server
+Gritz::Testing::Server#address def address
+Gritz::Testing::Server#initialize def initialize(config, logger:)
+Gritz::Testing::Server#port def port
+Gritz::Testing::Server#start def start
+Gritz::Testing::Server#stop def stop
+Gritz::Testing::Server#transport def transport
+Gritz::Testing::Server.start def start(config = nil, controllers: nil, middleware: nil, logger: Logger.new(File::NULL))
+Gritz::Testing::TransportContract
+Gritz::Transport
+Gritz::Transport::Async
+Gritz::Transport::Async#bind def bind(listener_spec = @config.bind)
+Gritz::Transport::Async#drain! def drain!
+Gritz::Transport::Async#initialize def initialize(config:, dispatcher:, logger:)
+Gritz::Transport::Async#kill def kill
+Gritz::Transport::Async#refresh_health def refresh_health
+Gritz::Transport::Async#running? def running?
+Gritz::Transport::Async#start def start
+Gritz::Transport::Async#stats def stats
+Gritz::Transport::Async#stop def stop(deadline:)
+Gritz::Transport::Async#update_health def update_health(ready:, checks: {})
+Gritz::Transport::Async#wait def wait
+Gritz::Transport::Async.capabilities def capabilities
+Gritz::Transport::Native
+Gritz::Transport::Native#bind def bind(listener_spec = @config.bind)
+Gritz::Transport::Native#drain! def drain!
+Gritz::Transport::Native#initialize def initialize(config:, dispatcher:, logger:)
+Gritz::Transport::Native#kill def kill
+Gritz::Transport::Native#running? def running?
+Gritz::Transport::Native#start def start
+Gritz::Transport::Native#stats def stats
+Gritz::Transport::Native#stop def stop(deadline:)
+Gritz::Transport::Native#update_health def update_health(ready:, checks: {})
+Gritz::Transport::Native#wait def wait
+Gritz::Transport::Native.capabilities def capabilities
+Gritz::Transport::Native.postfork_child def postfork_child
+Gritz::Transport::Native.postfork_parent def postfork_parent
+Gritz::Transport::Native.prefork def prefork
+Gritz::Worker

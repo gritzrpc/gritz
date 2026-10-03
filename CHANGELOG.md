@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.0
+
+- Select Core and Native 0.9.0 for the stabilization series.
+
 ## 0.6.1
 
 - Include gritz-core and gritz-native 0.6.1, avoiding work on suppressed RPC completion logs.
