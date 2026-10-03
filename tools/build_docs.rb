@@ -53,6 +53,19 @@ end
 dynamic << "  end\n  class DSL\n"
 settings.each { |name| dynamic << "    # @api public\n    def #{name}(value); end\n" }
 Gritz::Configuration::HOOKS.each { |name| dynamic << "    # @api public\n    def #{name}(&block); end\n" }
+dynamic << "  end\n  class Controller\n"
+callbacks = %i[before_action around_action after_action]
+callbacks.each do |name|
+  parameters = Gritz::Controller.method(name).parameters
+  expected_parameters = [%i[opt method], %i[key only], %i[key except], %i[block block]]
+  abort "Review callback documentation signature: #{name} #{parameters.inspect}" unless parameters == expected_parameters
+
+  dynamic << "    # Registers a #{name.to_s.delete_suffix('_action')} callback by method name or block.\n"
+  dynamic << "    # @param method [Symbol, nil] callback method name\n"
+  dynamic << "    # @param only [Symbol, Array<Symbol>, nil] actions that run this callback\n"
+  dynamic << "    # @param except [Symbol, Array<Symbol>, nil] actions that skip this callback\n"
+  dynamic << "    # @api public\n    def self.#{name}(method = nil, only: nil, except: nil, &block); end\n"
+end
 dynamic << "  end\n  module Errors\n"
 Gritz::Errors::CODES.each_with_index do |code, number|
   name = code.to_s.split("_").map(&:capitalize).join
@@ -86,6 +99,25 @@ Dir["#{output}/**/*.html"].each do |page|
 end
 public_api = YARD::Registry.all.select do |object|
   object.tag(:api)&.text == "public" && (object.type != :method || object.visibility == :public)
+end
+# Compare the actual stable entry points, rather than only checking that generated pages exist.
+[Gritz::Controller, Gritz::Controller::Request, Gritz::Controller::Stream,
+ Gritz::Configuration, Gritz::DSL, Gritz::Client, Gritz::CLI].each do |klass|
+  { "#" => klass, "." => klass.singleton_class }.each do |separator, owner|
+    owner.public_instance_methods(false).each do |name|
+      path = "#{klass.name}#{separator}#{name}"
+      object = YARD::Registry.at(path)
+      next if object&.tag(:api)&.text == "private"
+
+      abort "Missing public API documentation: #{path}" unless public_api.include?(object)
+    end
+  end
+end
+callbacks.each do |name|
+  path = "Gritz::Controller.#{name}"
+  signature = "def #{name}(method = nil, only: nil, except: nil, &block)"
+  abort "Incorrect public API signature: #{path}" unless YARD::Registry.at(path).signature == signature
+  abort "Missing callback navigation: #{path}" unless File.read(File.join(output, "method_list.html")).include?(path)
 end
 inventory = public_api.map { |object| "#{object.path}#{" #{object.signature}" if object.type == :method}" }.sort
 File.write(File.join(output, "public-api.txt"), "#{inventory.join("\n")}\n")

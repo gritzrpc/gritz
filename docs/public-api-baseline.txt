@@ -259,6 +259,9 @@ Gritz::Controller#process def process(action)
 Gritz::Controller#request def request
 Gritz::Controller#stream def stream
 Gritz::Controller.action_defined? def action_defined?(action)
+Gritz::Controller.after_action def after_action(method = nil, only: nil, except: nil, &block)
+Gritz::Controller.around_action def around_action(method = nil, only: nil, except: nil, &block)
+Gritz::Controller.before_action def before_action(method = nil, only: nil, except: nil, &block)
 Gritz::Controller.bind def bind(service)
 Gritz::Controller.filters def filters
 Gritz::Controller.rescue_from def rescue_from(*errors, with: nil, &block)

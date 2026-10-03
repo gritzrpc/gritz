@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.1
+
+- Select Core and Native 0.9.1 for cooperative RPC cancellation, operational commands and corrected master readiness timeouts.
+
 ## 0.9.0
 
 - Select Core and Native 0.9.0 for the stabilization series.
