@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.0
+
+- Include gritz-core and gritz-native 0.6.0 with shared adapter contracts and transport selection.
+
 ## 0.5.0
 
 - Include Gruf migration support and optional gRPC Reflection through gritz-core and gritz-native 0.5.0.

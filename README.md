@@ -14,7 +14,7 @@ Requires CRuby 3.3 or later and grpc 1.83 or later. Linux and macOS are tested.
 | `gritz-rails` | [gritzrpc/gritz-rails](https://github.com/gritzrpc/gritz-rails) | Optional Rails execution, generators and development reloading |
 | `gritz-otel` | [gritzrpc/gritz-otel](https://github.com/gritzrpc/gritz-otel) | Optional server/client tracing and worker OTLP metrics |
 
-Applications can add `gem "gritz", "~> 0.5.0"` to their Gemfile. It installs both the core and native adapter. Add `gritz-otel` for OpenTelemetry. Add `gritz-rails` for Rails execution, generators and development reloading. The Fiber adapter `gritz-async` is planned.
+Applications can add `gem "gritz", "~> 0.6.0"` to their Gemfile. It installs both the core and native adapter. Add `gritz-otel` for OpenTelemetry. Add `gritz-rails` for Rails execution, generators and development reloading. The experimental Fiber adapter [gritz-async](https://github.com/gritzrpc/gritz-async) runs without the official `grpc` gem; use it with `gritz-core` instead of this meta gem.
 
 ## Quickstart from source
 
