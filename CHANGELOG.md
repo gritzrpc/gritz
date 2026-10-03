@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.1
+
+- Include gritz-core and gritz-native 0.6.1, avoiding work on suppressed RPC completion logs.
+
 ## 0.6.0
 
 - Include gritz-core and gritz-native 0.6.0 with shared adapter contracts and transport selection.
