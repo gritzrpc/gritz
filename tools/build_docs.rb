@@ -54,9 +54,10 @@ dynamic << "  end\n  class DSL\n"
 settings.each { |name| dynamic << "    # @api public\n    def #{name}(value); end\n" }
 Gritz::Configuration::HOOKS.each { |name| dynamic << "    # @api public\n    def #{name}(&block); end\n" }
 dynamic << "  end\n  module Errors\n"
-Gritz::Errors::CODES.each do |code|
+Gritz::Errors::CODES.each_with_index do |code, number|
   name = code.to_s.split("_").map(&:capitalize).join
-  dynamic << "    # Canonical #{code} status.\n    # @api public\n    class #{name} < Gritz::Error; end\n"
+  dynamic << "    # Canonical #{code} status.\n    # @api public\n    class #{name} < Gritz::Error\n"
+  dynamic << "      CODE = :#{code}\n      GRPC_CODE = #{number}\n    end\n"
 end
 dynamic << "  end\nend\n"
 generated = File.join(input, "dynamic_api.rb")
